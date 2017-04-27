@@ -26,7 +26,7 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 # If you are not using ActiveRecord, you can remove this line.
 if ENV['RAILS_ENV'] == 'test'
   require 'simplecov'
-  SimpleCov.start('RAILS')
+  SimpleCov.start('rails')
 end
 
 ActiveRecord::Migration.maintain_test_schema!
