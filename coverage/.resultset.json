@@ -1,13 +1,31 @@
 {
   "RSpec": {
     "coverage": {
-      "/Users/igordmed/git/atm/app/models/user.rb": [
+      "/Users/igordmed/git/atm/app/models/account.rb": [
+        1,
         1,
         null
       ],
       "/Users/igordmed/git/atm/app/models/application_record.rb": [
         1,
         1,
+        null
+      ],
+      "/Users/igordmed/git/atm/app/models/address.rb": [
+        1,
+        1,
+        null
+      ],
+      "/Users/igordmed/git/atm/app/models/user.rb": [
+        1,
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        1,
+        null,
         null
       ],
       "/Users/igordmed/git/atm/app/channels/application_cable/channel.rb": [
@@ -37,6 +55,6 @@
         0
       ]
     },
-    "timestamp": 1493334226
+    "timestamp": 1493336332
   }
 }
