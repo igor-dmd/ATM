@@ -1,6 +1,38 @@
 {
   "RSpec": {
     "coverage": {
+      "/Users/igordmed/git/atm/app/controllers/users_controller.rb": [
+        1,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        1,
+        1,
+        2,
+        null,
+        null
+      ],
+      "/Users/igordmed/git/atm/app/controllers/application_controller.rb": [
+        1,
+        null
+      ],
       "/Users/igordmed/git/atm/app/models/account.rb": [
         1,
         1,
@@ -8,31 +40,31 @@
         1,
         null,
         1,
-        9,
-        9,
-        9,
-        9,
+        12,
+        12,
+        12,
+        12,
         null,
         null,
         1,
-        9,
+        12,
         null,
         null,
         1,
-        9,
+        12,
         null,
         null,
         1,
-        9,
+        12,
         null,
         null,
         1,
-        9,
+        12,
         null,
         null,
         1,
         1,
-        99,
+        132,
         null,
         null
       ],
@@ -54,7 +86,7 @@
         1,
         null,
         1,
-        5,
+        9,
         null,
         null
       ],
@@ -70,10 +102,6 @@
         0,
         0
       ],
-      "/Users/igordmed/git/atm/app/controllers/application_controller.rb": [
-        0,
-        0
-      ],
       "/Users/igordmed/git/atm/app/jobs/application_job.rb": [
         0,
         0
@@ -85,6 +113,6 @@
         0
       ]
     },
-    "timestamp": 1493342524
+    "timestamp": 1493595399
   }
 }
