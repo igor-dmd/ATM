@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create(user_params)
+    @user = User.create!(user_params)
     render json: @user, status: :created
   end
 
@@ -16,12 +16,24 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    render json: @user.update(user_params)
+    @user.update!(user_params)
+    render json: @user
   end
 
   def destroy
     @user = User.find(params[:id])
-    render json: @user.destroy, status: :no_content
+    @user.destroy!
+    render json: nil, status: :no_content
+  end
+
+  def update_limit
+    @user = User.find(params[:id])
+    if @user.account.limit_updated_at < 10.minutes.ago
+      @user.account.update!(limit: params[:limit], limit_updated_at: DateTime.now)
+      render json: @user.account
+    else
+      render json: nil, status: :precondition_failed
+    end
   end
 
   private

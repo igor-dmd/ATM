@@ -7,4 +7,8 @@ class User < ApplicationRecord
   def create_account
     self.account = Account.new
   end
+
+  def update_limit_timestamp
+    self
+  end
 end

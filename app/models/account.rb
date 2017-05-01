@@ -12,6 +12,7 @@ class Account < ApplicationRecord
 
   def set_limit
     self.limit = rand(100000..180000)
+    self.limit_updated_at ||= DateTime.now
   end
 
   def set_token
