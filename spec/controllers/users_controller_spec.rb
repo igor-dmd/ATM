@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-  let (:user) {FactoryGirl.build(:user)}
-  let (:attrs) {FactoryGirl.attributes_for(:user)}
+  let (:user) { FactoryGirl.build(:user) }
+  let (:attrs) { FactoryGirl.attributes_for(:user) }
 
   describe 'GET #index' do
     context 'a typical request has been made to the API' do
@@ -26,7 +26,7 @@ RSpec.describe UsersController, type: :controller do
     context 'a typical request has been made to the API' do
       it 'has a http success status' do
         user.save
-        get :show, params: {id: user.id}
+        get :show, params: { id: user.id }
         expect(response).to have_http_status(:ok)
       end
     end
@@ -34,10 +34,22 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'PUT #update' do
     context 'a typical request has been made to the API' do
+      let (:attrs_update) { FactoryGirl.attributes_for(:user_update) }
+
       it 'has a http success status' do
         user.save
-        put :update, params: {:id => user.id, :user_params => attrs}
+        put :update, params: { id: user.id, user: attrs_update }
         expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    context 'a typical request has been made to the API' do
+      it 'has a http success status' do
+        user.save
+        delete :destroy, params: { id: user.id }
+        expect(response).to have_http_status(:no_content)
       end
     end
   end

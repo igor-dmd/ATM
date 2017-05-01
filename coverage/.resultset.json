@@ -25,6 +25,11 @@
         null,
         1,
         1,
+        1,
+        null,
+        null,
+        1,
+        1,
         2,
         null,
         null
@@ -40,54 +45,37 @@
         1,
         null,
         1,
-        12,
-        12,
-        12,
-        12,
+        13,
+        13,
+        13,
+        13,
         null,
         null,
         1,
-        12,
+        13,
         null,
         null,
         1,
-        12,
+        13,
         null,
         null,
         1,
-        12,
+        13,
         null,
         null,
         1,
-        12,
+        13,
         null,
         null,
         1,
         1,
-        132,
+        143,
         null,
-        null
-      ],
-      "/Users/igordmed/git/atm/app/models/application_record.rb": [
-        1,
-        1,
         null
       ],
       "/Users/igordmed/git/atm/app/models/address.rb": [
         1,
         1,
-        null
-      ],
-      "/Users/igordmed/git/atm/app/models/user.rb": [
-        1,
-        1,
-        1,
-        null,
-        1,
-        null,
-        1,
-        9,
-        null,
         null
       ],
       "/Users/igordmed/git/atm/app/channels/application_cable/channel.rb": [
@@ -111,8 +99,25 @@
         0,
         0,
         0
+      ],
+      "/Users/igordmed/git/atm/app/models/application_record.rb": [
+        0,
+        0,
+        0
+      ],
+      "/Users/igordmed/git/atm/app/models/user.rb": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
       ]
     },
-    "timestamp": 1493595399
+    "timestamp": 1493654598
   }
 }
