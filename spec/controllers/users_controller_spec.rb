@@ -53,7 +53,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe 'PUT #update_limit' do
     context 'a typical request has been made to the API' do
-      it 'blocks the update if the limit has been updated in the last 10 minutes' do
+      it 'blocks the operation if the limit has been updated in the last 10 minutes' do
         put :update_limit, params: { id: user.id, limit: rand(100000..180000) }
         expect(response).to have_http_status(:precondition_failed)
       end
@@ -79,6 +79,28 @@ RSpec.describe UsersController, type: :controller do
       it 'updates the limit field with a new value' do
         post :deposit, params: { id: user.id, target_acc_number: user.account.account_number,
                                  target_branch: user.account.branch, amount: 40000 }
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
+  describe 'POST #transfer' do
+    context 'a typical request has been made to the API' do
+      it 'blocks the operation if the user does not have enough cash to transfer' do
+        user.account.cash = 10000
+        user.account.save
+        user.save
+        post :transfer, params: { id: user.id, target_acc_number: user.account.account_number,
+                                 target_branch: user.account.branch, amount: 15000 }
+        expect(response).to have_http_status(:precondition_failed)
+      end
+
+      it 'updates the limit field with a new value' do
+        user.account.cash = 10000
+        user.account.save
+        user.save
+        post :transfer, params: { id: user.id, target_acc_number: user.account.account_number,
+                                 target_branch: user.account.branch, amount: 10000 }
         expect(response).to have_http_status(:ok)
       end
     end

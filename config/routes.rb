@@ -9,4 +9,5 @@ Rails.application.routes.draw do
 
   put 'users/:id/update/limit', to: 'users#update_limit'
   post 'users/:id/deposit', to: 'users#deposit'
+  post 'users/:id/transfer', to: 'users#transfer'
 end

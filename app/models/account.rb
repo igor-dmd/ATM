@@ -29,7 +29,7 @@ class Account < ApplicationRecord
   end
 
   def set_cash
-    self.cash = 000
+    self.cash ||= 0
   end
 
   private

@@ -62,6 +62,28 @@ class UsersController < ApplicationController
     end
   end
 
+  def transfer
+    get_user
+    @target_acc = Account.where(account_number: params[:target_acc_number],
+                                branch: params[:target_branch]).first
+    if !@target_acc.nil?
+      if params[:amount].to_i <= @user.account.cash
+        @user.account.cash -= params[:amount].to_i
+        @target_acc.cash += params[:amount].to_i
+        @transaction = Transaction.create(user_id: @user.id,
+                                          target_acc_number: params[:target_acc_number],
+                                          target_branch: params[:target_branch],
+                                          amount: params[:amount])
+        render json: @transaction
+      else
+        render json: nil, status: :precondition_failed
+      end
+    else
+      render json: nil, status: :not_found
+    end
+
+  end
+
   private
   def user_params
     params.permit(:full_name, :cpf, :birthday_date, :gender, :password)
