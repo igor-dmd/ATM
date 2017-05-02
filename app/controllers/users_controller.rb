@@ -81,12 +81,6 @@ class UsersController < ApplicationController
     else
       render json: nil, status: :not_found
     end
-
-    def balance
-      get_user
-      render json: @user.account.cash
-    end
-
   end
 
   def statement
@@ -95,6 +89,11 @@ class UsersController < ApplicationController
     @transactions = Transaction.where(user_id: @user.id,
                                       created_at: ((Time.zone.now - (statement_days).days)..Time.zone.now))
     render json: @transactions
+  end
+
+  def balance
+    get_user
+    render json: @user.account.cash
   end
 
   private
