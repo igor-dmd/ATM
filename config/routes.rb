@@ -2,7 +2,6 @@ Rails.application.routes.draw do
 
   get 'users', to: 'users#index'
   post 'users', to: 'users#create'
-
   get 'users/:id', to: 'users#show'
   put 'users/:id', to: 'users#update'
   delete 'users/:id', to: 'users#destroy'
@@ -11,4 +10,5 @@ Rails.application.routes.draw do
   post 'users/:id/deposit', to: 'users#deposit'
   post 'users/:id/transfer', to: 'users#transfer'
   get 'users/:id/statement', to: 'users#statement'
+  get 'users/:id/statement', to: 'users#balance'
 end

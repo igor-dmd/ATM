@@ -120,4 +120,13 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
+  describe 'GET #balance' do
+    context 'a typical request has been made to the API' do
+      it 'shows the current balance to the user' do
+        get :balance, params: { id: user.id }
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
 end

@@ -82,6 +82,11 @@ class UsersController < ApplicationController
       render json: nil, status: :not_found
     end
 
+    def balance
+      get_user
+      render json: @user.account.cash
+    end
+
   end
 
   def statement
