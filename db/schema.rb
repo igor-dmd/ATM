@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20170501233845) do
   end
 
   create_table "transactions", force: :cascade do |t|
-    t.string "type"
+    t.string "transaction_type"
     t.string "target_acc_number"
     t.string "target_branch"
     t.integer "user_id"

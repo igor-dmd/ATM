@@ -38,8 +38,8 @@ class UsersController < ApplicationController
 
   def deposit
     get_user
-    @transactions = Transaction.where(user_id: @user.id, type: 'deposit',
-                                      created_at: (Time.zone.now.beginning_of_day..Time.zone.now.end_of_day))
+    @transactions = Transaction.where(user_id: @user.id, transaction_type: 'deposit',
+                                      created_at: (Time.zone.now.beginning_of_day..Time.zone.now))
     @target_acc = Account.where(account_number: params[:target_acc_number],
                                 branch: params[:target_branch]).first
 
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
         @target_acc.cash += params[:amount].to_i
         @target_acc.save
 
-        @transaction = Transaction.create(user_id: @user.id,
+        @transaction = Transaction.create(user_id: @user.id, transaction_type: 'deposit',
                                           target_acc_number: params[:target_acc_number],
                                           target_branch: params[:target_branch],
                                           amount: params[:amount])
@@ -70,7 +70,7 @@ class UsersController < ApplicationController
       if params[:amount].to_i <= @user.account.cash
         @user.account.cash -= params[:amount].to_i
         @target_acc.cash += params[:amount].to_i
-        @transaction = Transaction.create(user_id: @user.id,
+        @transaction = Transaction.create(user_id: @user.id, transaction_type: 'transfer',
                                           target_acc_number: params[:target_acc_number],
                                           target_branch: params[:target_branch],
                                           amount: params[:amount])
@@ -82,6 +82,14 @@ class UsersController < ApplicationController
       render json: nil, status: :not_found
     end
 
+  end
+
+  def statement
+    get_user
+    statement_days = params.has_key?(:number_of_days) ? params[:number_of_days].to_i : 7
+    @transactions = Transaction.where(user_id: @user.id,
+                                      created_at: ((Time.zone.now - (statement_days).days)..Time.zone.now))
+    render json: @transactions
   end
 
   private

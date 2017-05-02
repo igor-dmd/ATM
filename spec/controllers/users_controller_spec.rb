@@ -105,4 +105,19 @@ RSpec.describe UsersController, type: :controller do
       end
     end
   end
+
+  describe 'GET #statement' do
+    context 'a typical request has been made to the API' do
+      it 'shows a 7 day default statement if no argument for number of days is passed in the request' do
+        get :statement, params: { id: user.id }
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'shows the statement for the given number of days' do
+        get :statement, params: { id: user.id, number_of_days: 5 }
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
+
 end
