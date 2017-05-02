@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   delete 'users/:id', to: 'users#destroy'
 
   put 'users/:id/update/limit', to: 'users#update_limit'
+  post 'users/:id/deposit', to: 'users#deposit'
 end

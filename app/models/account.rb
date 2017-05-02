@@ -8,6 +8,7 @@ class Account < ApplicationRecord
     set_account_number
     set_branch
     set_token
+    set_cash
   end
 
   def set_limit
@@ -25,6 +26,10 @@ class Account < ApplicationRecord
 
   def set_branch
     self.branch = generate_sequence_number(4)
+  end
+
+  def set_cash
+    self.cash = 000
   end
 
   private
