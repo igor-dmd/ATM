@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   get 'users/:id/statement', to: 'users#statement'
   get 'users/:id/balance', to: 'users#balance'
   post 'users/:id/withdraw/request', to: 'users#withdrawal_request'
+  post 'users/:id/withdraw', to: 'users#withdraw'
 end

@@ -36,7 +36,8 @@ class UsersController < ApplicationController
   end
 
   def deposit
-    @transactions = @user.transactions.where(transaction_type: 'deposit', created_at: (Time.zone.now.beginning_of_day..Time.zone.now))
+    @transactions = @user.transactions.where(transaction_type: 'deposit',
+                                             created_at: (Time.zone.now.beginning_of_day..Time.zone.now))
     if !@target_acc.nil?
       current_amount = (@transactions.any? ? @transactions.map(&:amount).reduce(&:+) : 0) + params[:amount].to_i
       if current_amount < 80000
@@ -79,9 +80,8 @@ class UsersController < ApplicationController
   end
 
   def withdrawal_request
-    if params[:amount].to_i % 1000 == 0 && params[:amount].to_i <= @user.account.cash
-      @money_dispenser = MoneyDispenser.new
-      options = @money_dispenser.get_withdraw_options params[:amount].to_i
+    if params[:amount].to_i % 1000 === 0 && params[:amount].to_i <= @user.account.cash
+      options = MoneyDispenser.new.get_withdrawal_options params[:amount].to_i
       @transaction = create_transaction 'withdrawal_request', @user.account.account_number, @user.account.branch
       render json: options.merge('withdrawal_request_id' => @transaction.id)
     else
@@ -90,13 +90,13 @@ class UsersController < ApplicationController
   end
 
   def withdraw
-    withdrawal_request = @user.transactions.where(id: params[:withdrawal_request_id])
+    withdrawal_request = @user.transactions.where(id: params[:withdrawal_request_id].to_i).first
     if !withdrawal_request.nil?
-      options = @money_dispenser.get_withdraw_options withdrawal_request.amount
-      if params[:selected_option].between?(1..send(options.keys.length))
+      options = MoneyDispenser.new.get_withdrawal_options withdrawal_request.amount
+      if params[:selected_option].to_i.between? 1, options.keys.length
         @user.account.cash -= withdrawal_request.amount.to_i
         create_transaction 'withdraw', @user.account.account_number, @user.account.branch
-        render json: @transaction.merge('selected_option' => options[params[:selected_option]])
+        render json: @transaction.attributes.merge('selected_option' => options[params[:selected_option]])
       else
         render nil, status: :precondition_failed
       end

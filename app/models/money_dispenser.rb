@@ -1,5 +1,5 @@
 class MoneyDispenser
-  def get_withdraw_options(value)
+  def get_withdrawal_options(value)
      options_to_hash(get_options(value))
   end
 
@@ -9,17 +9,17 @@ class MoneyDispenser
     qty = value / bills.first
 
     if rest == 0
-      current_combination.push({bill: bills.first, qty: qty})
+      current_combination.push({bill: bills.first/100, qty: qty})
       options.push(current_combination)
     else
       return false if bills.length == 1
-      current_combination.push({bill: bills.first, qty: qty})
+      current_combination.push({bill: bills.first/100, qty: qty})
       get_bill_combinations(rest, bills.drop(1), current_combination, options)
     end
   end
 
   def get_options(value)
-    bills = [100, 50, 20, 10]
+    bills = [10000, 5000, 2000, 1000]
     current_combination = Array.new
     options = Array.new
 
