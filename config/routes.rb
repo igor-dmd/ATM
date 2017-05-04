@@ -10,5 +10,6 @@ Rails.application.routes.draw do
   post 'users/:id/deposit', to: 'users#deposit'
   post 'users/:id/transfer', to: 'users#transfer'
   get 'users/:id/statement', to: 'users#statement'
-  get 'users/:id/statement', to: 'users#balance'
+  get 'users/:id/balance', to: 'users#balance'
+  post 'users/:id/withdraw/request', to: 'users#withdrawal_request'
 end

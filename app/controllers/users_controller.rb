@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_action :set_user, except: [:index, :create]
+  before_action :find_target_acc, only: [:deposit, :transfer]
+
   def index
     @users = User.all
     render json: @users
@@ -10,24 +13,20 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
     render json: @user
   end
 
   def update
-    get_user
     @user.update!(user_params)
     render json: @user
   end
 
   def destroy
-    get_user
     @user.destroy!
     render json: nil, status: :no_content
   end
 
   def update_limit
-    get_user
     if @user.account.limit_updated_at < 10.minutes.ago
       @user.account.update!(limit: params[:limit], limit_updated_at: DateTime.now)
       render json: @user.account
@@ -37,22 +36,13 @@ class UsersController < ApplicationController
   end
 
   def deposit
-    get_user
-    @transactions = Transaction.where(user_id: @user.id, transaction_type: 'deposit',
-                                      created_at: (Time.zone.now.beginning_of_day..Time.zone.now))
-    @target_acc = Account.where(account_number: params[:target_acc_number],
-                                branch: params[:target_branch]).first
-
+    @transactions = @user.transactions.where(transaction_type: 'deposit', created_at: (Time.zone.now.beginning_of_day..Time.zone.now))
     if !@target_acc.nil?
       current_amount = (@transactions.any? ? @transactions.map(&:amount).reduce(&:+) : 0) + params[:amount].to_i
       if current_amount < 80000
         @target_acc.cash += params[:amount].to_i
         @target_acc.save
-
-        @transaction = Transaction.create(user_id: @user.id, transaction_type: 'deposit',
-                                          target_acc_number: params[:target_acc_number],
-                                          target_branch: params[:target_branch],
-                                          amount: params[:amount])
+        create_transaction 'deposit', params[:target_acc_number], params[:target_branch]
         render json: @transaction
       else
         render json: nil, status: :precondition_failed
@@ -63,17 +53,11 @@ class UsersController < ApplicationController
   end
 
   def transfer
-    get_user
-    @target_acc = Account.where(account_number: params[:target_acc_number],
-                                branch: params[:target_branch]).first
     if !@target_acc.nil?
       if params[:amount].to_i <= @user.account.cash
         @user.account.cash -= params[:amount].to_i
         @target_acc.cash += params[:amount].to_i
-        @transaction = Transaction.create(user_id: @user.id, transaction_type: 'transfer',
-                                          target_acc_number: params[:target_acc_number],
-                                          target_branch: params[:target_branch],
-                                          amount: params[:amount])
+        create_transaction 'transfer', params[:target_acc_number], params[:target_branch]
         render json: @transaction
       else
         render json: nil, status: :precondition_failed
@@ -84,16 +68,41 @@ class UsersController < ApplicationController
   end
 
   def statement
-    get_user
     statement_days = params.has_key?(:number_of_days) ? params[:number_of_days].to_i : 7
-    @transactions = Transaction.where(user_id: @user.id,
-                                      created_at: ((Time.zone.now - (statement_days).days)..Time.zone.now))
+    @transactions = @user.transactions.where(created_at: ((Time.zone.now - (statement_days).days)..Time.zone.now))
+                                      .where.not(transaction_type: 'withdrawal_request)')
     render json: @transactions
   end
 
   def balance
-    get_user
     render json: @user.account.cash
+  end
+
+  def withdrawal_request
+    if params[:amount].to_i % 1000 == 0 && params[:amount].to_i <= @user.account.cash
+      @money_dispenser = MoneyDispenser.new
+      options = @money_dispenser.get_withdraw_options params[:amount].to_i
+      @transaction = create_transaction 'withdrawal_request', @user.account.account_number, @user.account.branch
+      render json: options.merge('withdrawal_request_id' => @transaction.id)
+    else
+      render json: nil, status: :precondition_failed
+    end
+  end
+
+  def withdraw
+    withdrawal_request = @user.transactions.where(id: params[:withdrawal_request_id])
+    if !withdrawal_request.nil?
+      options = @money_dispenser.get_withdraw_options withdrawal_request.amount
+      if params[:selected_option].between?(1..send(options.keys.length))
+        @user.account.cash -= withdrawal_request.amount.to_i
+        create_transaction 'withdraw', @user.account.account_number, @user.account.branch
+        render json: @transaction.merge('selected_option' => options[params[:selected_option]])
+      else
+        render nil, status: :precondition_failed
+      end
+    else
+      render nil, status: :forbidden
+    end
   end
 
   private
@@ -101,7 +110,19 @@ class UsersController < ApplicationController
     params.permit(:full_name, :cpf, :birthday_date, :gender, :password)
   end
 
-  def get_user
+  def set_user
     @user = User.find(params[:id])
+  end
+
+  def create_transaction(transaction_type, target_acc_number, target_branch)
+    @transaction = Transaction.create(user_id: @user.id, transaction_type: transaction_type,
+                                      target_acc_number: target_acc_number,
+                                      target_branch: target_branch,
+                                      amount: params[:amount].to_i)
+  end
+
+  def find_target_acc
+    @target_acc = Account.where(account_number: params[:target_acc_number],
+                                branch: params[:target_branch]).first
   end
 end
