@@ -7,6 +7,7 @@ To run the tests, install the project dependencies with ```bundle install``` and
 ## API Endpoints
 ----
 
+
 * ### List Users
 
 #### GET /users
@@ -16,6 +17,7 @@ Success Response:
   Code: 200
   Content: List of Users
 ```
+
 
 * ### Create User
 
@@ -62,6 +64,7 @@ Success Response:
   Content: User Information
 ```
 
+
 * ### Update User
 
 #### PUT /users/:id
@@ -91,7 +94,8 @@ Success Response:
   Content: User Information
 ```
 
-### Destroy User
+
+* ### Destroy User
 
 #### POST /users/:id
 
