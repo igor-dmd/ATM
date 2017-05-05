@@ -8,7 +8,7 @@ To run the tests, install the project dependencies with ```bundle install``` and
 ----
 
 
-* ### List Users
+### List Users
 
 #### GET /users
 
@@ -19,7 +19,7 @@ Success Response:
 ```
 
 
-* ### Create User
+### Create User
 
 #### POST /users
 
@@ -47,7 +47,7 @@ Success Response:
   Content: User Information
 ```
 
-* ### Show User
+### Show User
 
 #### GET /users/:id
 
@@ -65,7 +65,7 @@ Success Response:
 ```
 
 
-* ### Update User
+### Update User
 
 #### PUT /users/:id
 
@@ -95,7 +95,7 @@ Success Response:
 ```
 
 
-* ### Destroy User
+### Destroy User
 
 #### POST /users/:id
 
