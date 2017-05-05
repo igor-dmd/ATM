@@ -6,11 +6,11 @@ Rails.application.routes.draw do
   put 'users/:id', to: 'users#update'
   delete 'users/:id', to: 'users#destroy'
 
-  put 'users/:id/update/limit', to: 'users#update_limit'
-  post 'users/:id/deposit', to: 'users#deposit'
-  post 'users/:id/transfer', to: 'users#transfer'
-  get 'users/:id/statement', to: 'users#statement'
-  get 'users/:id/balance', to: 'users#balance'
-  post 'users/:id/withdraw/request', to: 'users#withdrawal_request'
-  post 'users/:id/withdraw', to: 'users#withdraw'
+  put 'limit/:user_id/update/limit', to: 'limits#update'
+  post 'deposit/:user_id', to: 'deposits#create'
+  post 'transfer/:user_id', to: 'transfers#create'
+  get 'account/:user_id/statement', to: 'accounts#index'
+  get 'account/:user_id/balance', to: 'accounts#show'
+  post 'withdraw/:user_id/request', to: 'withdraws#create'
+  post 'withdraw/:user_id/confirm', to: 'withdraws#update'
 end
