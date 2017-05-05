@@ -1,24 +1,105 @@
-# README
+# ATM
+----
+_Sample backend exercise to simulate ATM operations._
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To run the tests, install the project dependencies with ```bundle install``` and run ```bundle exec rspec```.
 
-Things you may want to cover:
+## API Endpoints
+----
 
-* Ruby version
+* ### List Users
 
-* System dependencies
+#### GET /users
 
-* Configuration
+Success Response:
+```
+  Code: 200
+  Content: List of Users
+```
 
-* Database creation
+* ### Create User
 
-* Database initialization
+#### POST /users
 
-* How to run the test suite
+Data Params:
+```
+{
+    "full_name":[string],
+    "cpf":[string],
+    "address":[text],
+    "birthday':[datetime],
+    "gender":[integer],
+    "password":[integer],
+    "address" :[Address] {
+        "street_name":[string],
+        "city":[string],
+        "state":[string],
+        "country":[string],
+    }
+}
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+Success Response:
+```
+  Code: 200
+  Content: User Information
+```
 
-* Deployment instructions
+* ### Show User
 
-* ...
+#### GET /users/:id
+
+URL Params:
+```
+{
+    "id":[integer]
+}
+
+```
+Success Response:
+```
+  Code: 200
+  Content: User Information
+```
+
+* ### Update User
+
+#### PUT /users/:id
+
+URL Params: id=[integer]
+
+Data Params:
+```
+{
+   "full_name":[string],
+    "cpf":[string],
+    "address":[text],
+    "birthday':[datetime],
+    "gender":[integer],
+    "password":[integer],
+    "address" :[Address] {
+        "street_name":[string],
+        "city":[string],
+        "state":[string],
+        "country":[string],
+    }
+}
+```
+Success Response:
+```
+  Code: 200
+  Content: User Information
+```
+
+### Destroy User
+
+#### POST /users/:id
+
+URL Params: id=[integer]
+
+```
+Success Response:
+```
+  Code: 200
+  Content: deposit data
+```
