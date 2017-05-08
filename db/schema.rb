@@ -12,8 +12,11 @@
 
 ActiveRecord::Schema.define(version: 20170501233845) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "accounts", force: :cascade do |t|
-    t.integer "user_id"
+    t.bigint "user_id"
     t.string "account_number"
     t.string "branch"
     t.string "token"
@@ -26,7 +29,7 @@ ActiveRecord::Schema.define(version: 20170501233845) do
   end
 
   create_table "addresses", force: :cascade do |t|
-    t.integer "user_id"
+    t.bigint "user_id"
     t.string "street_name"
     t.string "city"
     t.string "state"
@@ -40,7 +43,7 @@ ActiveRecord::Schema.define(version: 20170501233845) do
     t.string "transaction_type"
     t.string "target_acc_number"
     t.string "target_branch"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "amount"
@@ -57,4 +60,7 @@ ActiveRecord::Schema.define(version: 20170501233845) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "accounts", "users"
+  add_foreign_key "addresses", "users"
+  add_foreign_key "transactions", "users"
 end
