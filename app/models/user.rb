@@ -1,7 +1,7 @@
 class User < ApplicationRecord
-  has_one :address
-  has_one :account
-  has_many :transactions
+  has_one :address, dependent: :destroy
+  has_one :account, dependent: :destroy
+  has_many :transactions, dependent: :destroy
 
   before_create :create_account
 
