@@ -14,7 +14,7 @@ require 'ffaker'
                       gender: rand( 2 ),
                       password: Digest::SHA256.hexdigest( FFaker::Internet.password ) )
 
-  address = Address.create!( street_name: FFaker::AddressBR.street + FFaker::AddressBR.building_number,
+  address = Address.create!( street_name: FFaker::AddressBR.street + ", " + FFaker::AddressBR.building_number,
                        city: FFaker::AddressBR.city,
                        state: FFaker::AddressBR.state,
                        country: 'Brazil',
