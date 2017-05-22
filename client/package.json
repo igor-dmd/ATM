@@ -5,7 +5,8 @@
   "proxy": "http://localhost:3100/",
   "dependencies": {
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "semantic-ui": "^2.2.10"
   },
   "devDependencies": {
     "react-scripts": "0.9.5"
